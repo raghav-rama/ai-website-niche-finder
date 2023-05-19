@@ -8,9 +8,25 @@
 <body>
     <h1>AI Website Niche Finder!</h1>
     <form action="{{ url_for('upload_csv.upload_csv') }}" method="POST" enctype="multipart/form-data" onsubmit="showLoader()">
-        <input type="file" name="csv_file">
+        {{ form.hidden_tag() }}
+        <label class="text label" for="from_row">{{ form.from_row.label }}</label>
+        {{ form.from_row() }}
+        <br>
+        <label class="text label" for="to_row">{{ form.to_row.label }}</label>
+        {{ form.to_row() }}
+        <br>
+        <label class="text label" for="batch_length">{{ form.batch_length.label }}</label>
+        {{ form.batch_length() }}
+        <br>
+        <label class="text label" for="prompt_context">{{ form.prompt_context.label }}</label>
+        {{ form.prompt_context() }}
+        <br>
+        <label class="text label" for="prompt_question">{{ form.prompt_question.label }}</label>
+        {{ form.prompt_question() }}
+        <br>
+        <input class="text label" type="file" name="csv_file">
         <input type="submit" value="Upload">
     </form>
-    <div id="loader" style="display:none;">Processing data...</div>
+    <div class="text" id="loader" style="display:none;">Processing data...</div>
 </body>
 </html>
