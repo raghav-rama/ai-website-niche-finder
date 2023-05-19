@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Landing Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    <script src="{{ url_for('static', filename='loader.js') }}"></script>
+</head>
+<body>
+    <h1>AI Website Niche Finder!</h1>
+    <form action="{{ url_for('upload_csv.upload_csv') }}" method="POST" enctype="multipart/form-data" onsubmit="showLoader()">
+        <input type="file" name="csv_file">
+        <input type="submit" value="Upload">
+    </form>
+    <div id="loader" style="display:none;">Processing data...</div>
+</body>
+</html>
