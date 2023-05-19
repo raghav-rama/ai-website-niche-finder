@@ -3,3 +3,5 @@ pandas
 python-dotenv
 tqdm
 flask
+Flask-WTF 
+wtforms
