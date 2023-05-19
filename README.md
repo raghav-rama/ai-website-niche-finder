@@ -56,3 +56,13 @@ find niches of websites
      export FLASK_ENV=development
      flask run
      ```
+     
+6. Setup OpenAI API Key
+
+   - make a file name `.env` in the project root dir
+   - add the following lines
+   ```
+   OPENAI_API_KEY=YOUR-OPENAI-API-KEY
+   APP_SECRET_KEY=ANY-RANDOM-KEY
+   ```
+   - APP_SECRET_KEY is required by WTForms
