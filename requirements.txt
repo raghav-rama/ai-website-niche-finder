@@ -6,3 +6,4 @@ flask
 Flask-WTF 
 wtforms
 gunicorn
+flask_cors
