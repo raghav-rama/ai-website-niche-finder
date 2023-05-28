@@ -156,3 +156,4 @@ Yoga
 """
     prompt_question = f"What all niches do these {batch_length} websites belong to from my list and are they in English or non-english:"
     df = None
+    flag = 0

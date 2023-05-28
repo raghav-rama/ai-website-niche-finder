@@ -12,9 +12,12 @@ result_dir = os.path.join(os.path.dirname(__file__), "results")
 
 
 def get_gpt_response():
+    batch_length = Inputs.batch_length
     try:
-        list_files()
-        flag = cleanup()
+        # TODO: remove this
+        # flag = cleanup()
+        flag = Inputs.flag
+        pass
     except FileNotFoundError as e:
         print("File not found, make sure directory path is correctly is setup")
         logger.error("File not found, make sure directory path is correctly is setup")
@@ -91,6 +94,7 @@ def get_gpt_response():
                 max_tokens=2048,
             )
             response = completion.choices[0].message.content
+            logger.debug(f"response: {response}")
             websites_and_niches = response.split("\n")
 
             for website_and_niche in websites_and_niches:
