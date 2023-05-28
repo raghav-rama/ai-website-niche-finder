@@ -39,3 +39,9 @@ def cleanup():
             return 1
     except FileNotFoundError:
         print("File not present")
+
+def getFilePath():
+    for file in file_list:
+        if file.endswith(".csv"):
+            return os.path.join(result_dir, file)
+    return None
