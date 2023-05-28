@@ -2,6 +2,7 @@
 
 import os
 import re
+from aboip1.views.inputs import Inputs
 
 pattern = r"results-row\d+-row\d+.csv"
 
@@ -25,21 +26,16 @@ def list_files():
             file_list.append(filename)
         if filename == "latest_j.txt":
             file_list.append(filename)
+    return file_list
 
 
 def cleanup():
-    # s = input("type 'yes' if you want to remove output file: ")
-    # if s == 'yes':
     print(file_list)
     try:
         if len(file_list):
-            s = input("Found older result files, cleanup? y/n: ")
-            if s == "y":
-                for filename in file_list:
-                    os.remove(os.path.join(result_dir, filename))
-                return 1
-            else:
-                print("cool")
-                return 0
+            for filename in file_list:
+                os.remove(os.path.join(result_dir, filename))
+            Inputs.flag = 1
+            return 1
     except FileNotFoundError:
         print("File not present")
