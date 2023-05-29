@@ -13,6 +13,9 @@ result_dir = os.path.join(os.path.dirname(__file__), "results")
 
 def get_gpt_response():
     batch_length = Inputs.batch_length
+    from_row = Inputs.from_row
+    to_row = Inputs.to_row
+    logger.debug(f"from_row: {from_row}, to_row: {to_row}")
     try:
         # TODO: remove this
         # flag = cleanup()
@@ -42,7 +45,9 @@ def get_gpt_response():
 
     df_length = len(df.index)
 
-    if Inputs.from_row == -1 or flag:
+    # TODO: remove 'or flag' from if condition
+    # if Inputs.from_row == -1 or flag:
+    if Inputs.from_row == -1:
         from_row, to_row = [0, df_length]
         FROM, TO = from_row, to_row
 
@@ -75,6 +80,7 @@ def get_gpt_response():
             logger.exception("Exception: ")
 
     try:
+        logger.debug(f"inside try: from_row: {from_row}, to_row: {to_row}")
         progress_bar = tqdm(
             range(from_row, to_row, batch_length), desc="Processing batches"
         )

@@ -37,6 +37,8 @@ def cleanup():
                 os.remove(os.path.join(result_dir, filename))
             Inputs.flag = 1
             return 1
+        Inputs.flag = 0
+        return 0
     except FileNotFoundError:
         print("File not present")
 
