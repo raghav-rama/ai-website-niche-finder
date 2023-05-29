@@ -44,6 +44,7 @@ def cleanup():
 
 
 def getFilePath():
+    file_list = list_files()
     for file in file_list:
         if file.endswith(".csv"):
             return os.path.join(result_dir, file)
