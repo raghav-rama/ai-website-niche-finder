@@ -7,6 +7,7 @@ logger = getLogger()
 
 bp = Blueprint("download_csv", __name__)
 
+
 @bp.route("/download_csv", methods=["GET"])
 def download_csv():
     try:

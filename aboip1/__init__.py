@@ -15,7 +15,7 @@ def create_app():
     app.register_blueprint(upload_csv_bp)
     app.register_blueprint(can_continue_bp)
     app.register_blueprint(download_csv_bp)
-    
+
     CORS(app)
 
     return app

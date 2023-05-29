@@ -38,6 +38,7 @@ def upload_csv():
         logger.exception("Exception: ")
         return jsonify({"error": f"{e}"}), 404
 
+
 def setInputs(form):
     try:
         Inputs.from_row = int(form.from_row.data)

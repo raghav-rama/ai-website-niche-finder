@@ -18,7 +18,7 @@ def continue_():
 @bp.route("/cleanup", methods=["POST"])
 def cleanup_():
     data = request.get_json()
-    print(data['choice'])
+    print(data["choice"])
     try:
         if data["choice"] == "yes":
             cleanup()
