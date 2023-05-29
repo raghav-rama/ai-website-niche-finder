@@ -12,6 +12,8 @@ bp = Blueprint("download_csv", __name__)
 def download_csv():
     try:
         file_path = getFilePath()
+        logger.debug(f"file_path: {file_path}")
+        logger.debug(f"list_files: {list_files()}")
         if file_path is None:
             return (
                 jsonify(

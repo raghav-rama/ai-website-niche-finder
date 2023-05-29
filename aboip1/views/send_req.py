@@ -113,9 +113,9 @@ def get_gpt_response():
                     website = website_batch[j]
                 except (KeyError, ValueError):
                     # print("f error: ", j, i)
+                    logger.debug("f error: j, i = ", j, i)
                     j = i
                     logger.exception("Exception: ")
-                    logger.debug("f error: j, i = ", j, i)
                     website = website_batch[j]
                 # print("website: ", website)
                 niches = website_and_niche_list[1]
