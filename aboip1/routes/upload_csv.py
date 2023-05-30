@@ -10,6 +10,11 @@ logger = getLogger()
 
 bp = Blueprint("upload_csv", __name__)
 
+@bp.after_request
+def after_request(response):
+    timestamp = time.strftime("[%Y-%b-%d %H:%M]")
+    logger.debug(f"{timestamp} {request.method} {request.url} {response.status}")
+    return response
 
 @bp.route("/upload_csv", methods=["POST"])
 def upload_csv():
