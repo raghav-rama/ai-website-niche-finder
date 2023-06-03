@@ -26,7 +26,7 @@ def download_csv():
                 404,
             )
         else:
-            return send_file(file_path, download_name="output.csv", as_attachment=True)
+            return send_file(file_path, download_name="output.csv", as_attachment=True, max_age=600)
     except Exception as e:
         logger.exception("Exception: ")
         return jsonify({"error": f"{e}"}), 404

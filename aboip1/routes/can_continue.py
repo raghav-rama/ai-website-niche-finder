@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from aboip1.views.helper import list_files, cleanup
 from aboip1.views.logging import getLogger
+from aboip1.views.inputs import Inputs
 
 bp = Blueprint("can_continue", __name__)
 logger = getLogger()
@@ -23,8 +24,11 @@ def cleanup_():
         if data["choice"] == "yes":
             cleanup()
             logger.debug(f"Cleanup done")
+            Inputs.flag = 1
             return jsonify({"status": "cleaned up"}), 200
         if data["choice"] == "no":
+            Inputs.flag = 0
             return jsonify({"status": "not cleaned up"}), 200
     except Exception as e:
+        Inputs.flag = 0
         return jsonify({"error": f"{e}"}), 404

@@ -10,12 +10,14 @@ from aboip1.views.inputs import Inputs
 logger = getLogger()
 result_dir = os.path.join(os.path.dirname(__file__), "results")
 
-
 def get_gpt_response():
     batch_length = Inputs.batch_length
     from_row = Inputs.from_row
     to_row = Inputs.to_row
+    FROM = Inputs.FROM
+    TO = Inputs.TO
     logger.debug(f"from_row: {from_row}, to_row: {to_row}")
+    logger.debug(f"from_row: {FROM}, to_row: {TO}")
     try:
         # TODO: remove this
         # flag = cleanup()
@@ -66,7 +68,7 @@ def get_gpt_response():
 
     j = from_row
 
-    if not flag:
+    if not Inputs.flag:
         try:
             with open(os.path.join(result_dir, "latest_j.txt"), "r") as f:
                 j = int(f.read())
@@ -81,6 +83,7 @@ def get_gpt_response():
 
     try:
         logger.debug(f"inside try: from_row: {from_row}, to_row: {to_row}")
+        logger.debug(f"inside try: from_row: {FROM}, to_row: {TO}")
         progress_bar = tqdm(
             range(from_row, to_row, batch_length), desc="Processing batches"
         )
@@ -127,7 +130,7 @@ def get_gpt_response():
                 result_df.to_csv(
                     os.path.join(
                         result_dir,
-                        f"results-row{Inputs.FROM}-row{Inputs.TO}.csv",
+                        f"results-row{FROM}-row{TO}.csv",
                     ),
                     mode="a",
                     index=False,

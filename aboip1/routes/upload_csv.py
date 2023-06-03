@@ -28,8 +28,8 @@ def upload_csv():
         Inputs.prompt_question = request.form["promptQuestion"]
         Inputs.input_csv = request.files["csvFile"]
         Inputs.df = pd.read_csv(Inputs.input_csv, header=None)
-        Inputs.FROM = 0
-        Inputs.TO = len(Inputs.df.index)
+        Inputs.FROM = Inputs.from_row
+        Inputs.TO = Inputs.to_row
         logger.debug(f"Input.from_row = {Inputs.from_row}")
         logger.debug(f"Input.to_row = {Inputs.to_row}")
         logger.debug(f"Input.batch_length = {Inputs.batch_length}")
