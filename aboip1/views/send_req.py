@@ -1,16 +1,25 @@
 import os
 import pandas as pd
 import sys
-from aboip1.views.helper import list_files, cleanup
+from uuid import uuid4
 from aboip1.views.logging import getLogger
 from aboip1.views.rate_limit_handling import completions_with_backoff
 from tqdm import tqdm
 from aboip1.views.inputs import Inputs
+from config import Config
 
 logger = getLogger()
 result_dir = os.path.join(os.path.dirname(__file__), "results")
 
+def save_file_id_to_session():
+    unique_identifier = str(uuid4())
+    Config.session["file_identifier"] = unique_identifier
+
+
 def get_gpt_response():
+    unique_identifier = Config.session["file_identifier"]
+    logger.debug(f"unique_identifier in send_req.py: {unique_identifier}")
+    logger.debug(f"Config.session in send_req.py: {Config.session}")
     batch_length = Inputs.batch_length
     from_row = Inputs.from_row
     to_row = Inputs.to_row
@@ -130,7 +139,7 @@ def get_gpt_response():
                 result_df.to_csv(
                     os.path.join(
                         result_dir,
-                        f"results-row{FROM}-row{TO}.csv",
+                        f"results-row{FROM}-row{TO}-{unique_identifier}.csv",
                     ),
                     mode="a",
                     index=False,

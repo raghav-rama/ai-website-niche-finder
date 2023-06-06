@@ -1,14 +1,24 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, request, jsonify, make_response
 import pandas as pd
 import time
 from aboip1.views.inputs import Inputs
 from aboip1.views.InputForm import InputForm
 from aboip1.views.logging import getLogger
-from aboip1.views.send_req import get_gpt_response
+from aboip1.views.send_req import get_gpt_response, save_file_id_to_session
+from config import Config
 
 logger = getLogger()
 
 bp = Blueprint("upload_csv", __name__)
+
+# test route, not a feature
+@bp.route("/get_cookie")
+def get_cookie():
+    cookies = request.cookies
+    logger.debug(f"cookies: {cookies}")
+    file_identifier = cookies.get("file_identifier")
+    logger.debug(f"file_identifier: {file_identifier}")
+    return jsonify({"file_identifier": file_identifier})
 
 @bp.after_request
 def after_request(response):
@@ -16,11 +26,17 @@ def after_request(response):
     logger.debug(f"{timestamp} {request.method} {request.url} {response.status}")
     return response
 
+
 @bp.route("/upload_csv", methods=["POST"])
 def upload_csv():
     try:
         # form = InputForm()
         # setInputs(form)
+        save_file_id_to_session()
+        logger.debug(f"Config.session in upload_csv: {Config.session}")
+        response = make_response(jsonify({"status": "success"}), 200)
+        response.set_cookie("file_identifier", Config.session["file_identifier"])
+        
         Inputs.from_row = int(request.form["fromRow"])
         Inputs.to_row = int(request.form["toRow"])
         Inputs.batch_length = int(request.form["batchLength"])
@@ -37,12 +53,12 @@ def upload_csv():
         logger.debug(f"Input.prompt_question = {Inputs.prompt_question}")
         logger.debug(f"Input.input_csv = {Inputs.input_csv}")
         logger.debug(f"Input.df = {Inputs.df}")
+        
         get_gpt_response()
-        return jsonify({"status": "success"}), 200
+        return response
     except Exception as e:
         logger.exception("Exception: ")
         return jsonify({"error": f"{e}"}), 404
-
 
 def setInputs(form):
     try:
