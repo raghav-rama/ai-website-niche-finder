@@ -163,6 +163,7 @@ cython_debug/
 # User defined
 *.csv
 *.txt
+flask_session/*
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
