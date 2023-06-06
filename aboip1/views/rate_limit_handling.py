@@ -3,7 +3,10 @@ import openai
 import random
 import time
 from logging import getLogger
+from config import Config
 
+
+openai.api_key = Config.OPENAI_API_KEY
 logger = getLogger()
 
 
