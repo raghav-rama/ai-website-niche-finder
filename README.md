@@ -65,4 +65,4 @@ find niches of websites
    OPENAI_API_KEY=YOUR-OPENAI-API-KEY
    APP_SECRET_KEY=ANY-RANDOM-KEY
    ```
-   - APP_SECRET_KEY is required by WTForms
+   - APP_SECRET_KEY is required by WTForms and flask_session
