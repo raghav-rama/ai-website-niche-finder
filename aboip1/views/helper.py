@@ -3,8 +3,13 @@
 import os
 import re
 from aboip1.views.inputs import Inputs
+from aboip1.views.logging import getLogger
+from flask import session
 
-pattern = r"results-row\d+-row\d+.csv"
+logger = getLogger()
+
+# pattern = r"results-row\d+-row\d+.csv"
+pattern = r"results-row\d+-row\d+-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.csv"
 
 file_list = []
 
@@ -43,9 +48,10 @@ def cleanup():
         print("File not present")
 
 
-def getFilePath():
+def getFilePath(file_identifier):
+    logger.debug(f"unique_identifier in helper.py: {file_identifier}")
     file_list = list_files()
     for file in file_list:
-        if file.endswith(".csv"):
+        if file.find(file_identifier) != -1:
             return os.path.join(result_dir, file)
     return None
