@@ -7,3 +7,4 @@ Flask-WTF
 wtforms
 gunicorn
 flask_cors
+flask_session
