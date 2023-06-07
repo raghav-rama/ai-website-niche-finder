@@ -11,6 +11,7 @@ from config import Config
 logger = getLogger()
 result_dir = os.path.join(os.path.dirname(__file__), "results")
 
+
 def save_file_id_to_session():
     unique_identifier = str(uuid4())
     Config.session["file_identifier"] = unique_identifier

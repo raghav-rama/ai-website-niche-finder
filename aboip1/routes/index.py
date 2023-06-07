@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, make_response
+from flask import Blueprint, render_template, make_response, request
 from aboip1.views.InputForm import InputForm
 from aboip1.views.logging import getLogger
 
@@ -19,9 +19,12 @@ def index():
 def hello_template():
     return render_template("hello.html", name="AI Website Niche Finder")
 
+
 # test route, not a feature
 @bp.route("/set_cookie")
 def cookie_insertion():
+    # logger.debug(f"request.host:  {request.host}")
+    # logger.debug(f"request.url:  {request.url}")
     response = make_response("Cookie inserted")
-    response.set_cookie("file_identifier", value="values")
+    response.set_cookie("file_identifier", value="values", domain=None)
     return response
