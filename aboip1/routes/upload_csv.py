@@ -43,7 +43,10 @@ def upload_csv():
         logger.debug(f"Config.session in upload_csv: {Config.session}")
         response = make_response(jsonify({"status": "success"}), 200)
         response.set_cookie(
-            "file_identifier", Config.session["file_identifier"], domain=None, samesite=None
+            "file_identifier",
+            Config.session["file_identifier"],
+            domain=None,
+            samesite=None,
         )
 
         Inputs.from_row = int(request.form["fromRow"])
