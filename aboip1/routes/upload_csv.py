@@ -36,9 +36,9 @@ def upload_csv():
         # setInputs(form)
         save_file_id_to_session()
         domain = (
-            "ai-website-niche-finder-client.vercel.app"
+            None
             if request.host == "localhost:5000"
-            else None
+            else "ai-website-niche-finder-client.vercel.app"
         )
         logger.debug(f"Config.session in upload_csv: {Config.session}")
         response = make_response(jsonify({"status": "success"}), 200)
