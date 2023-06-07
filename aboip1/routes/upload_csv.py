@@ -35,15 +35,15 @@ def upload_csv():
         # form = InputForm()
         # setInputs(form)
         save_file_id_to_session()
-        domain = (
-            None
-            if request.host == "localhost:5000"
-            else "ai-website-niche-finder-client.vercel.app"
-        )
+        # domain = (
+        #     None
+        #     if request.host == "localhost:5000"
+        #     else ".vercel.app"
+        # )
         logger.debug(f"Config.session in upload_csv: {Config.session}")
         response = make_response(jsonify({"status": "success"}), 200)
         response.set_cookie(
-            "file_identifier", Config.session["file_identifier"], domain=domain
+            "file_identifier", Config.session["file_identifier"], domain=None
         )
 
         Inputs.from_row = int(request.form["fromRow"])

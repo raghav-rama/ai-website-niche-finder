@@ -14,8 +14,8 @@ def create_app():
     app.config["SESSION_TYPE"] = "filesystem"
     app.config["SESSION_COOKIE_SECURE"] = True
     app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
-    app.config["SESSION_COOKIE_DOMAIN"] = "localhost" if app.debug else ".vercel.app"
-    print(f"app.config['SESSION_COOKIE_DOMAIN']: {app.config['SESSION_COOKIE_DOMAIN']}")
+    # app.config["SESSION_COOKIE_DOMAIN"] = "localhost" if app.debug else ".vercel.app"
+    # print(f"app.config['SESSION_COOKIE_DOMAIN']: {app.config['SESSION_COOKIE_DOMAIN']}")
     Session(app)
 
     app.register_blueprint(index_bp)
