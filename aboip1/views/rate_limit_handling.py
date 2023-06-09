@@ -1,12 +1,11 @@
 ## Handle rate limit error with exponential backoff strategy
 import openai
+import openai.error
 import random
 import time
 from logging import getLogger
-from config import Config
 
 
-openai.api_key = Config.OPENAI_API_KEY
 logger = getLogger()
 
 

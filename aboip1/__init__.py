@@ -6,6 +6,7 @@ from aboip1.routes.upload_csv import bp as upload_csv_bp
 from aboip1.routes.index import bp as index_bp
 from aboip1.routes.can_continue import bp as can_continue_bp
 from aboip1.routes.download_csv import bp as download_csv_bp
+from aboip1.routes.check_api_key import bp as check_api_key_bp
 
 
 def create_app():
@@ -22,6 +23,7 @@ def create_app():
     app.register_blueprint(upload_csv_bp)
     app.register_blueprint(can_continue_bp)
     app.register_blueprint(download_csv_bp)
+    app.register_blueprint(check_api_key_bp)
 
     CORS(app, supports_credentials=True)
 

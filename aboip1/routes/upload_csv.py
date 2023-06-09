@@ -62,6 +62,7 @@ def upload_csv():
         Inputs.df = pd.read_csv(Inputs.input_csv, header=None)
         Inputs.FROM = Inputs.from_row
         Inputs.TO = Inputs.to_row
+
         logger.debug(f"Input.from_row = {Inputs.from_row}")
         logger.debug(f"Input.to_row = {Inputs.to_row}")
         logger.debug(f"Input.batch_length = {Inputs.batch_length}")
@@ -69,6 +70,8 @@ def upload_csv():
         logger.debug(f"Input.prompt_question = {Inputs.prompt_question}")
         logger.debug(f"Input.input_csv = {Inputs.input_csv}")
         logger.debug(f"Input.df = {Inputs.df}")
+        logger.debug(f"Input.FROM = {Inputs.FROM}")
+        logger.debug(f"Input.TO = {Inputs.TO}")
 
         get_gpt_response()
         return response
