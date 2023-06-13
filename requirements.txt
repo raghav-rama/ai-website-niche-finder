@@ -8,3 +8,4 @@ wtforms
 gunicorn
 flask_cors
 flask_session
+boto3
