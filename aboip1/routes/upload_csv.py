@@ -1,11 +1,17 @@
 from flask import Blueprint, request, jsonify, make_response
 import pandas as pd
 import time
+import os
 from aboip1.views.inputs import Inputs
-from aboip1.views.InputForm import InputForm
+from aboip1.views.helper import getFilePath
 from aboip1.views.logging import getLogger
 from aboip1.views.send_req import get_gpt_response, save_file_id_to_session
 from config import Config
+import boto3
+from botocore.exceptions import ClientError
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
 
 logger = getLogger()
 
@@ -24,8 +30,8 @@ def get_cookie():
 
 @bp.after_request
 def after_request(response):
-    timestamp = time.strftime("[%Y-%b-%d %H:%M]")
-    logger.debug(f"{timestamp} {request.method} {request.url} {response.status}")
+    logger.debug(f"after request: {response}")
+    send_mail()
     return response
 
 
@@ -94,3 +100,64 @@ def setInputs(form):
         logger.debug(f"Dataframe: {Inputs.df}")
     except Exception as e:
         logger.exception("Exception: ")
+
+
+def send_mail():
+    msg = MIMEMultipart()
+    msg["Subject"] = "CSV Result"
+    msg["From"] = Config.FROM_EMAIL
+    msg["To"] = ", ".join(Config.TO_EMAILS)
+    part = MIMEText("PFA", "plain")
+    msg.attach(part)
+    ses_client = boto3.client(
+        "ses",
+        region_name=Config.AWS_REGION,
+        aws_access_key_id=Config.AWS_ACCESS_KEY,
+        aws_secret_access_key=Config.AWS_SECRET_KEY,
+    )
+
+    csv_file_path = getFilePath(Config.session["file_identifier"])
+
+    try:
+        with open(csv_file_path, "rb") as file:
+            filename = os.path.basename(csv_file_path)
+            filename.replace(f"-{Config.session['file_identifier']}", "")
+            part = MIMEApplication(file.read())
+            part.add_header(
+                "Content-Disposition",
+                "attachment",
+                filename=filename,
+            )
+            msg.attach(part)
+            response = ses_client.send_raw_email(
+                Destinations=Config.TO_EMAILS,
+                # Destination={
+                #     "ToAddresses": Config.TO_EMAILS,
+                # },
+                # Message={
+                #     "Body": {
+                #         "Html": {
+                #             "Charset": "UTF-8",
+                #             "Data": f"Your file is ready for download. <br><br> <a href=#>Download</a>",
+                #         },
+                #         "Text": {
+                #             "Data": f"Your file is ready for download. Download from attachment",
+                #         },
+                #     },
+                #     "Subject": {
+                #         "Charset": "UTF-8",
+                #         "Data": "Your file is ready for download",
+                #     },
+                # },
+                RawMessage={"Data": msg.as_string()},
+                Source=Config.FROM_EMAIL,
+            )
+    except ClientError as e:
+        print(e.response["Error"]["Message"])
+        logger.exception("Client Error: ")
+    except Exception as e:
+        print("Some error occurerd", e)
+        logger.exception("Error: ")
+    else:
+        print(f"Email sent! Message ID: {response['MessageId']}")
+        logger.info("Email Sent!")
