@@ -18,7 +18,11 @@ log_file = os.path.join(log_dir, f"debug-{dt}.log")
 handler = logging.FileHandler(log_file, mode="w")
 handler.setLevel(logging.DEBUG)
 
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+
+# https://stackoverflow.com/questions/533048/how-to-log-source-file-name-and-line-number-in-python
+formatter = logging.Formatter(
+    "%(asctime)s - %(levelname)s - %(pathname)s - %(filename)s - %(lineno)d - %(message)s"
+)
 handler.setFormatter(formatter)
 
 logger.addHandler(handler)
